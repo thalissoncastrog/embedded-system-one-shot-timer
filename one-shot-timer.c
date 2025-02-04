@@ -6,6 +6,8 @@
 #define LED_PIN_G 13
 #define BUTTON_PIN 5
 
+bool leds_active = false; // Global variable to store the state of the LEDs
+
 int main()
 {
     stdio_init_all();
@@ -25,7 +27,21 @@ int main()
 
 
     while (true) {
-        printf("Hello, world!\n");
-        sleep_ms(1000);
+        
+         if (gpio_get(BUTTON_PIN) == 0 && !leds_active) {
+            sleep_ms(50); // Debounce
+            if (gpio_get(BUTTON_PIN) == 0) {
+                leds_active = true;
+                gpio_put(LED_PIN_B, 1);
+                gpio_put(LED_PIN_R, 1);
+                gpio_put(LED_PIN_G, 1);
+
+                
+            }
+        }
+
+        // Set a pause of 10 ms to reduce CPU usage.
+        // This avoids a fast execution of the loop and unnecessary resource consumption.
+        sleep_ms(10);
     }
 }
