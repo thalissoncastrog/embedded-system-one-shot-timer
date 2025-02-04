@@ -8,6 +8,12 @@
 
 bool leds_active = false; // Global variable to store the state of the LEDs
 
+// Callback to turn off the blue LED
+int64_t turn_off_blue_callback(alarm_id_t id, void *user_data) {
+    gpio_put(LED_PIN_B, 0);
+    return 0;
+}
+
 int main()
 {
     stdio_init_all();
@@ -27,7 +33,7 @@ int main()
 
 
     while (true) {
-        
+
          if (gpio_get(BUTTON_PIN) == 0 && !leds_active) {
             sleep_ms(50); // Debounce
             if (gpio_get(BUTTON_PIN) == 0) {
@@ -36,7 +42,6 @@ int main()
                 gpio_put(LED_PIN_R, 1);
                 gpio_put(LED_PIN_G, 1);
 
-                
             }
         }
 
