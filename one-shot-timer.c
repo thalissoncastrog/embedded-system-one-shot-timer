@@ -8,9 +8,17 @@
 
 bool leds_active = false; // Global variable to store the state of the LEDs
 
+// Callback to turn off the green LED
+int64_t turn_off_green_callback(alarm_id_t id, void *user_data) {
+    gpio_put(LED_PIN_G, 0);
+    leds_active = false; // to allow the button to be pressed again
+    return 0;
+}
+
 // Callback to turn off the red LED
 int64_t turn_off_red_callback(alarm_id_t id, void *user_data) {
     gpio_put(LED_PIN_R, 0);
+    add_alarm_in_ms(3000, turn_off_green_callback, NULL, false);
     return 0;
 }
 
