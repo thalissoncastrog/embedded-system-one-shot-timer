@@ -57,6 +57,8 @@ int main()
                 gpio_put(LED_PIN_R, 1);
                 gpio_put(LED_PIN_G, 1);
 
+                add_alarm_in_ms(3000, turn_off_blue_callback, NULL, false);
+
             }
         }
 
